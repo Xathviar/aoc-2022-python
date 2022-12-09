@@ -1,4 +1,5 @@
 from treelib import Node, Tree
+import traceback
 
 solution = 0
 currentWorkingDirectory = ""
@@ -20,21 +21,23 @@ with open("input") as f:
                     currentWorkingDirectory = f"{currentWorkingDirectory}{directory}/"
         elif args[0] == "dir":
             if currentWorkingDirectory == "/":
-                tree.create_node(args[1], args[1], currentWorkingDirectory, data=0)
+                tree.create_node(f"{currentWorkingDirectory}{args[1]}/", f"{currentWorkingDirectory}{args[1]}/", currentWorkingDirectory, data=0)
             else:
                 try:
-                    tree.create_node(args[1], args[1], currentWorkingDirectory.split("/")[-2], data=0)
-                except:
+                    tree.create_node(f"{currentWorkingDirectory}{args[1]}/", f"{currentWorkingDirectory}{args[1]}/", currentWorkingDirectory, data=0)
+                except Exception as ex:
+                    traceback.print_exception(type(ex), ex, ex.__traceback__)
                     continue
         else:
             value = int(args[0])
             filename = args[1]
             try:
                 if currentWorkingDirectory == "/":
-                    tree.create_node(filename, filename, currentWorkingDirectory, data=value)
+                    tree.create_node(f"{currentWorkingDirectory}{filename}", f"{currentWorkingDirectory}{filename}", currentWorkingDirectory, data=value)
                 else:
-                    tree.create_node(filename, filename, currentWorkingDirectory.split("/")[-2], data=value)
-            except:
+                    tree.create_node(f"{currentWorkingDirectory}{filename}", f"{currentWorkingDirectory}{filename}", currentWorkingDirectory, data=value)
+            except Exception as ex:
+                traceback.print_exception(type(ex), ex, ex.__traceback__)
                 continue
 
 
@@ -57,5 +60,6 @@ for node in tree.all_nodes_itr():
 
 solvetree(tree.get_node(tree.root))
 
-# print(solution)
+
+print(solution)
 print(f"Sum of all Values: {helperData}")
